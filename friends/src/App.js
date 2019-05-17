@@ -9,6 +9,7 @@ function App() {
       <Router>
         <Link to='/'>Home</Link>
         <Link to='/login'>Login</Link>
+        <Link to='/friends'>Friends</Link>
         <Route path='/login' component={Login} />
         <PrivateRoute exact path='/friends' component={FriendsList} />
       </Router>

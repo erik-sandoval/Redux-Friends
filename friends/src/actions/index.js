@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESSFUL = 'LOGIN_SUCCESSFUL'
@@ -21,8 +22,20 @@ export const login = creds => dispatch => {
 export const FETCHING_FRIENDS = 'FETCHING_FRIENDS'
 export const FETCHING_SUCCESSFUL = 'FETCHING_SUCCESSFUL'
 export const FETCHING_FAILED = 'FETCHING_FAILED'
-export const DELETE_FRIEND = 'DELETE_FRIEND'
+export const ADD_FRIEND = 'ADD_FRIEND'
 export const UPDATE_FRIEND = 'UPDATE_FRIEND'
+export const DELETE_FRIEND = 'DELETE_FRIEND'
 
-
+export const friendsList = () => dispatch => {
+    dispatch({ type: FETCHING_FRIENDS })
+    axiosWithAuth()
+        .get(`/api/friends`)
+        .then(res => {
+            dispatch({ type: FETCHING_SUCCESSFUL, payload: res.data })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({ type: FETCHING_FAILED, error: err })
+        })
+}
 
