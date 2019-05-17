@@ -3,7 +3,7 @@ import {
     LOGIN_FAILURE,
     FETCHING_FRIENDS, FETCHING_SUCCESSFUL,
     FETCHING_FAILED, ADD_FRIEND,
-    UPDATE_FRIEND, DELETE_FRIEND
+    ADD_SUCCESSFUL, ADD_FAILED
 } from '../actions'
 
 const initialState = {
@@ -13,7 +13,8 @@ const initialState = {
     loggingIn: false,
     savingFriends: false,
     updatingFriend: false,
-    error: null
+    error: null,
+    addingFriend: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -50,22 +51,25 @@ const reducer = (state = initialState, action) => {
         case FETCHING_FAILED:
             return {
                 ...state,
-                fetchingFriends: false
+                fetchingFriends: false,
+                error: action.error
             }
         case ADD_FRIEND:
             return {
                 ...state,
-                friends: action.payload
+                addingFriend: true
             }
-        case UPDATE_FRIEND:
+        case ADD_SUCCESSFUL:
             return {
                 ...state,
+                addingFriend: false,
                 friends: action.payload
             }
-        case DELETE_FRIEND:
+        case ADD_FAILED:
             return {
                 ...state,
-                friends: action.payload
+                addingFriend: false,
+                error: action.error
             }
         default:
             return state

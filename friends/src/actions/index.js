@@ -22,20 +22,35 @@ export const login = creds => dispatch => {
 export const FETCHING_FRIENDS = 'FETCHING_FRIENDS'
 export const FETCHING_SUCCESSFUL = 'FETCHING_SUCCESSFUL'
 export const FETCHING_FAILED = 'FETCHING_FAILED'
-export const ADD_FRIEND = 'ADD_FRIEND'
-export const UPDATE_FRIEND = 'UPDATE_FRIEND'
-export const DELETE_FRIEND = 'DELETE_FRIEND'
 
-export const friendsList = () => dispatch => {
+export const getFriends = () => dispatch => {
     dispatch({ type: FETCHING_FRIENDS })
     axiosWithAuth()
-        .get(`/api/friends`)
+        .get(`http://localhost:5000/api/friends`)
         .then(res => {
             dispatch({ type: FETCHING_SUCCESSFUL, payload: res.data })
         })
         .catch(err => {
             console.log(err)
             dispatch({ type: FETCHING_FAILED, error: err })
+        })
+}
+
+
+export const ADD_FRIEND = 'ADD_FRIEND'
+export const ADD_SUCCESSFUL = 'ADD_SUCCESSFUL'
+export const ADD_FAILED = 'ADD_FAILED'
+
+export const addFriend = friend => dispatch => {
+    dispatch({ type: ADD_FRIEND })
+    return axiosWithAuth()
+        .post(`http://localhost:5000/api/friends`, friend)
+        .then(res => {
+            dispatch({ type: ADD_SUCCESSFUL, payload: res.data })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({ type: ADD_FAILED, error: err })
         })
 }
 
