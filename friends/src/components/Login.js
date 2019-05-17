@@ -1,4 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { login } from '../actions/index'
+
+
 
 class Login extends React.Component {
     state = {
@@ -12,10 +17,22 @@ class Login extends React.Component {
             [e.target.name]: e.target.value
         })
     }
+
+    login = e => {
+        e.preventDefault();
+        this.props.login(this.state).then(() => {
+            this.props.history.push('/friends')
+        })
+        this.setState({
+            username: '',
+            password: '',
+        })
+    }
+
     render() {
-        console.log(this.state)
+        console.log(this.props)
         return (
-            <form>
+            <form onSubmit={this.login}>
                 username: <input
                     onChange={this.handleChange}
                     name='username'
@@ -32,4 +49,11 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+const mapStateToProps = state => {
+    console.log(state)
+    return {
+        isLoggingIn: state.loggingIn
+    }
+}
+
+export default connect(mapStateToProps, { login })(Login)
